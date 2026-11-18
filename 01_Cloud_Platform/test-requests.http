@@ -1,0 +1,14 @@
+### 健康检查
+GET http://localhost:8080/api/test/health
+
+### 数据库测试
+GET http://localhost:8080/api/test/db-test
+
+### 获取设备列表
+GET http://localhost:8080/api/device/list
+
+### 获取设备详情
+GET http://localhost:8080/api/device/box_001
+
+### 获取在线设备
+GET http://localhost:8080/api/device/online

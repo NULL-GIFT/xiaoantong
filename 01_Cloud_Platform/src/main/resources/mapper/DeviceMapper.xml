@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.securityplatform.mapper.DeviceMapper">
+
+    <!-- 注意：这里不需要定义 BaseResultMap 和 基础的CRUD SQL，
+         因为 BaseMapper 已经提供了默认实现 -->
+
+    <!-- 第三阶段新增：统计查询方法 -->
+
+    <!-- 统计在线设备数 -->
+    <select id="countOnlineDevices" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM sys_device
+        WHERE status = 1
+    </select>
+
+    <!-- 统计总设备数 -->
+    <select id="countTotalDevices" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM sys_device
+    </select>
+
+    <!-- 获取设备状态分布 -->
+    <select id="getDeviceStatusDistribution" resultType="java.util.Map">
+        SELECT
+            CASE status
+                WHEN 1 THEN 'normal'
+                WHEN 2 THEN 'warning'
+                ELSE 'error'
+                END as status,
+            COUNT(*) as count
+        FROM sys_device
+        GROUP BY status
+    </select>
+
+</mapper>

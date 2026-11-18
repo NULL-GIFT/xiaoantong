@@ -1,0 +1,35 @@
+# Dependencies, IDEs and build artifacts
+**/node_modules/
+**/.venv/
+**/venv/
+**/target/
+**/dist/
+**/.idea/
+**/.vscode/
+**/__pycache__/
+**/.pytest_cache/
+*.py[cod]
+*.log
+*.cache
+.env
+.env.*
+!.env.example
+*.local
+# Runtime/private data and generated training artifacts
+01_Cloud_Platform/storage/
+02_Edge_System/data/
+02_Edge_System/yolo/
+02_Edge_System/outputs/
+02_Edge_System/uploads/
+02_Edge_System/federated/outputs/
+02_Edge_System/federated/local_weights/
+02_Edge_System/device_id.txt
+*.pt
+*.pth
+*.onnx
+*.engine
+*.npy
+*.pem
+*.key
+.DS_Store
+Thumbs.db

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.securityplatform.mapper.AlarmMapper">
+
+    <!-- 注意：这里不需要定义 BaseResultMap 和基础的 insert 方法，
+         因为 BaseMapper 已经提供了默认实现 -->
+
+    <!-- 只保留自定义的统计查询方法 -->
+
+    <!-- 统计今日报警总数 -->
+    <select id="countTodayAlerts" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM sys_alarm
+        WHERE DATE(alarm_time) = CURDATE()
+    </select>
+
+    <!-- 统计未处理报警数 -->
+    <select id="countUnhandledAlerts" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM sys_alarm
+        WHERE is_handled = 0
+    </select>
+
+    <!-- 获取近7天报警趋势数据 -->
+    <select id="getLast7DaysTrend" resultType="java.util.Map">
+        SELECT
+            DATE(alarm_time) as date,
+            COUNT(*) as count
+        FROM sys_alarm
+        WHERE alarm_time >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+        GROUP BY DATE(alarm_time)
+        ORDER BY date
+    </select>
+
+    <!-- 获取报警类型分布 -->
+    <select id="getAlertTypeDistribution" resultType="java.util.Map">
+        SELECT
+            alarm_type as type,
+            COUNT(*) as count
+        FROM sys_alarm
+        WHERE alarm_type IS NOT NULL
+        GROUP BY alarm_type
+    </select>
+
+    <!-- 获取最近报警记录（用于大屏展示） -->
+    <select id="getRecentAlerts" parameterType="int" resultType="java.util.Map">
+        SELECT
+            a.id,
+            a.alarm_type AS type,
+            a.alarm_time AS time,
+            a.confidence,
+            a.is_handled,
+            a.img_path AS imgPath,
+            d.device_name AS deviceName,
+            a.location
+        FROM sys_alarm a
+        LEFT JOIN sys_device d ON d.device_id = a.device_id
+        ORDER BY a.alarm_time DESC
+        LIMIT #{limit}
+    </select>
+
+</mapper>

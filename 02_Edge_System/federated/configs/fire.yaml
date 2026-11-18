@@ -1,0 +1,6 @@
+# 模型特定配置
+model:
+  path: "federated/local_weights/fire/best.pt"
+  yolov5_path: "yolo/yolov5-master"
+data:
+  local_data_dir: "data/capture/fire"

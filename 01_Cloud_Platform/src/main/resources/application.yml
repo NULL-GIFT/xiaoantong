@@ -1,0 +1,57 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: security-platform
+
+  # 数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL:jdbc:mysql://localhost:3306/security_db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD}
+
+  # MQTT配置
+  mqtt:
+    # 基础配置
+    server-uri: ${MQTT_URL:tcp://127.0.0.1:1883}
+    username: ${MQTT_USERNAME:}
+    password: ${MQTT_PASSWORD:}
+    client-id: cloud-server-001
+    completion-timeout: 3000
+
+    # 使用逗号分隔的字符串，而不是YAML列表
+    topics: device/heartbeat,device/alarm,device/register
+    qos: 1,1,1
+# MyBatis Plus配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+jwt:
+  secret: ${JWT_SECRET}
+  expiration-ms: 86400000
+
+# 日志配置
+logging:
+  level:
+    com.team.security: debug
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+
+
+
+# ==========================================
+# 大模型 (VLM) 视觉清洗节点配置
+# ==========================================
+ai:
+  qwen:
+    # 阿里云百炼平台的 API-KEY (你需要去申请一个免费的填在这里，通过环境变量配置)
+    api-key: ${DASHSCOPE_API_KEY:}
+    # 使用 Qwen-VL-Max 模型，目前国内视觉大模型 T0 级别
+    model: "qwen-vl-max"
+    # 阿里云兼容 OpenAI 格式的调用网关
+    url: "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
