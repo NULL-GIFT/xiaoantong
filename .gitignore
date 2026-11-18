@@ -33,3 +33,9 @@
 *.key
 .DS_Store
 Thumbs.db
+
+# Local configuration containing credentials; publish examples only
+/01_Cloud_Platform/src/main/resources/application.yml
+/本地整合说明.md
+**/.eslintcache
+/01_Cloud_Platform/.mvn/settings-local.xml
